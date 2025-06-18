@@ -1,0 +1,46 @@
+.appointment-card-wrapper {
+  padding: 20px;
+}
+
+.appointment-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.appointment-card {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 16px;
+  width: 300px;
+  background: #fdfdfd;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.appointment-card-header h4 {
+  margin-bottom: 5px;
+}
+
+.appointment-card-body p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.appointment-card-actions {
+  margin-top: 12px;
+}
+
+.status-accepted {
+  color: green;
+  font-weight: bold;
+}
+
+.status-rejected {
+  color: red;
+  font-weight: bold;
+}
+
+.status-Pending {
+  color: orange;
+  font-weight: bold;
+}
