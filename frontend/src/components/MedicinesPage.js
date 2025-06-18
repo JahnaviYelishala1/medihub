@@ -10,7 +10,7 @@ const MedicinesPage = () => {
 
   const fetchMedicines = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/medicines');
+      const res = await axios.get('https://courageous-patience-production.up.railway.app/api/medicines');
       const meds = res.data.medicines || [];
       setMedicines(meds);
       setFiltered(meds);

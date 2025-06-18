@@ -46,7 +46,7 @@ const CartPage = () => {
     const handleCheckout = async () => {
         const amount = total.toFixed(2);
         try {
-            const res = await axios.post('http://localhost:5000/api/payment/create-order', {
+            const res = await axios.post('https://courageous-patience-production.up.railway.app/api/payment/create-order', {
                 amount,
                 items: cartItems,
                 userId: null // or the logged-in user ID
@@ -62,7 +62,7 @@ const CartPage = () => {
                 description: 'Medicine Purchase',
                 order_id: orderId,
                 handler: async function (response) {
-                    const verifyRes = await axios.post('http://localhost:5000/api/payment/verify', {
+                    const verifyRes = await axios.post('https://courageous-patience-production.up.railway.app/api/payment/verify', {
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_payment_id: response.razorpay_payment_id,
                         razorpay_signature: response.razorpay_signature

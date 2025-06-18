@@ -28,7 +28,7 @@ const BookAppointmentModal = ({ doctor, onClose }) => {
     };
 
     try {
-      await axios.post('http://localhost:5000/api/appointments/book', payload, {
+      await axios.post('https://courageous-patience-production.up.railway.app/api/appointments/book', payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         }

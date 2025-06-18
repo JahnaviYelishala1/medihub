@@ -16,7 +16,7 @@ const PatientAppointments = () => {
 
 
             try {
-                const res = await axios.get(`http://localhost:5000/api/appointments/patient/${patientId}`);
+                const res = await axios.get(`https://courageous-patience-production.up.railway.app/api/appointments/patient/${patientId}`);
                 setAppointments(res.data.appointments);
             } catch (err) {
                 console.error('Error fetching patient appointments', err);
@@ -29,7 +29,7 @@ const PatientAppointments = () => {
 
     const handleCancelAppointment = async (appointmentId) => {
         try {
-            await axios.delete(`http://localhost:5000/api/appointments/${appointmentId}`);
+            await axios.delete(`https://courageous-patience-production.up.railway.app/api/appointments/${appointmentId}`);
             alert('🗑️ Appointment cancelled');
             setAppointments(appointments.filter(appt => appt.id !== appointmentId)); // update UI
         } catch (err) {

@@ -18,7 +18,7 @@ const PatientDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/doctors')
+    axios.get('hhttps://courageous-patience-production.up.railway.app/api/doctors')
       .then(res => {
         setDoctors(res.data);
         setFilteredDoctors([]); // Initially show none
@@ -53,7 +53,7 @@ const PatientDashboard = () => {
   const handleBookAppointment = (doctorId, day, time) => {
     const patientId = localStorage.getItem('userId');
 
-    axios.post('http://localhost:5000/api/appointments/book', {
+    axios.post('https://courageous-patience-production.up.railway.app/api/appointments/book', {
       doctorId,
       patientId,
       day,

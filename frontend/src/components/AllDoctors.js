@@ -6,7 +6,7 @@ const AllDoctors = () => {
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/doctors')
+    axios.get('https://courageous-patience-production.up.railway.app/api/doctors')
       .then((res) => setDoctors(res.data))
       .catch((err) => console.error('Error fetching doctors:', err));
   }, []);

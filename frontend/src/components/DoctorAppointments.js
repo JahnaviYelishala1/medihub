@@ -10,7 +10,7 @@ const DoctorAppointments = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/appointments/doctor/${doctorId}`);
+        const res = await axios.get(`https://courageous-patience-production.up.railway.app/api/appointments/doctor/${doctorId}`);
         console.log("Appointments Response:", res.data);
         setAppointments(res.data.appointments);
       } catch (err) {
@@ -23,7 +23,7 @@ const DoctorAppointments = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/appointments/${id}/status`, { status });
+      await axios.put(`https://courageous-patience-production.up.railway.app/api/appointments/${id}/status`, { status });
       setAppointments((prev) =>
         prev.map((appt) => (appt.id === id ? { ...appt, status } : appt))
       );

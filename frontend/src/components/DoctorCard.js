@@ -84,7 +84,7 @@ const DoctorCard = ({ doctor }) => {
 
   const fetchBookedSlots = async (doctorId, date) => {
     try {
-      const res = await axios.get(`/api/appointments/booked-slots/${doctorId}/${date}`);
+      const res = await axios.get(`https://courageous-patience-production.up.railway.app/api/appointments/booked-slots/${doctorId}/${date}`);
 
       return res.data.slots || [];
     } catch (error) {
@@ -118,7 +118,7 @@ const DoctorCard = ({ doctor }) => {
     if (!patient) return alert('User not logged in. Please log in.');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/appointments/book', {
+      const response = await axios.post('https://courageous-patience-production.up.railway.app/api/appointments/book', {
         patientId: patient.id,
         patientFirstName: patient.firstName,
         patientLastName: patient.lastName,
