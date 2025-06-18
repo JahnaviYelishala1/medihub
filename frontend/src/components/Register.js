@@ -25,7 +25,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/register", form);
+      const res = await axios.post("https://courageous-patience-production.up.railway.app/api/auth/register", form);
       alert("Registration successful! Please login.");
       navigate("/login");
     } catch (err) {
