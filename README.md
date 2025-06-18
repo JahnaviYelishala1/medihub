@@ -29,5 +29,4 @@ MediHub is a full-stack web application that connects patients with doctors, ena
 - Cloudinary for image uploads
 - CORS for cross-origin requests
 
-## 🗂️ Project Structure
 
