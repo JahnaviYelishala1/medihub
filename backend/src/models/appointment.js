@@ -41,7 +41,7 @@ const Appointment = sequelize.define('Appointment', {
     type: DataTypes.DATEONLY,
     allowNull: false
   },
-  timeSlot: {                        // ✅ Add this field
+  timeSlot: {                        
     type: DataTypes.STRING,
     allowNull: false
   },

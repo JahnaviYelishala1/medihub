@@ -16,7 +16,9 @@ export const registerDoctor = async (req, res) => {
     const streamUpload = (req) => {
       return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
-          { folder: 'medicore/doctors' },
+          { folder: 'medicore/doctors',
+             upload_preset: 'tnhjn3hc'
+           },
           (error, result) => {
             if (result) {
               resolve(result);
