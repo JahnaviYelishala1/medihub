@@ -55,7 +55,7 @@ const DoctorRegister = () => {
     }
 
     try {
-      await axios.post("/api/doctors/register", formData, {
+      await axios.post("https://courageous-patience-production.up.railway.app/api/doctors/register", formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert("Doctor registered successfully. Please login.");
