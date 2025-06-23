@@ -4,13 +4,7 @@ import jwt from 'jsonwebtoken';
 
 export const registerDoctor = async (req, res) => {
   try {
-    console.log('REQ.FILE:', req.file);
     console.log('REQ.BODY:', req.body);
-
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: 'No image file uploaded.' });
-    }
-
 
     const doctor = await Doctor.create({
       ...req.body,
@@ -20,7 +14,6 @@ export const registerDoctor = async (req, res) => {
       languagesKnown: JSON.parse(req.body.languagesKnown),
     });
 
-    // ✅ Generate JWT
     const token = jwt.sign({ id: doctor.id }, process.env.JWT_SECRET_KEY, {
       expiresIn: process.env.JWT_EXPIRES || '7d',
     });
