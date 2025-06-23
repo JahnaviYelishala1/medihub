@@ -35,20 +35,23 @@ const PatientDashboard = () => {
   };
 
   const handleSearch = () => {
-    if (!specialization) {
-      setFilteredDoctors(doctors);
-      navigate('/doctors', { state: { filteredDoctors: doctors } });
-      return;
-    }
+  if (!specialization) {
+    setFilteredDoctors(doctors);
+    navigate('/doctors', { state: { filteredDoctors: doctors } });
+    return;
+  }
 
-    const lowerSearch = specialization.toLowerCase();
-    const filtered = doctors.filter((doc) =>
-      doc.departmentName?.toLowerCase().includes(lowerSearch)
-    );
+  const lowerSearch = specialization.toLowerCase();
+  const filtered = doctors.filter((doc) =>
+    doc.specializations?.some(spec =>
+      spec.toLowerCase().includes(lowerSearch)
+    )
+  );
 
-    setFilteredDoctors(filtered);
-    navigate('/doctors', { state: { filteredDoctors: filtered } });
-  };
+  setFilteredDoctors(filtered);
+  navigate('/doctors', { state: { filteredDoctors: filtered } });
+};
+
 
   const handleBookAppointment = (doctorId, day, time) => {
     const patientId = localStorage.getItem('userId');
