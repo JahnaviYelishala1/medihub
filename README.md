@@ -10,7 +10,6 @@ MediHub is a full-stack web application that connects patients with doctors, ena
 - 💊 Online medicine purchasing
 - 📧 Contact form
 - 💳 Razorpay payment gateway integration
-- ☁️ Image/file upload (profile photos, prescriptions)
 - 📦 Deployed on Vercel (frontend) and Railway (backend)
 
 ## 🛠️ Tech Stack
@@ -26,7 +25,6 @@ MediHub is a full-stack web application that connects patients with doctors, ena
 - Sequelize ORM
 - MySQL (Railway DB)
 - JWT Authentication
-- Cloudinary for image uploads
 - CORS for cross-origin requests
 
 
