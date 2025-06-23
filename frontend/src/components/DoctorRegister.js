@@ -1,6 +1,3 @@
-// ✅ New: Updated doctor registration and login support for frontend
-// File: src/components/DoctorRegister.js
-
 import React, { useState } from "react";
 import axios from "../utils/axios";
 import { useNavigate } from "react-router-dom";
@@ -25,17 +22,12 @@ const DoctorRegister = () => {
     availableHours: "",
     languagesKnown: [],
     appointmentCharges: "",
-    role: "Doctor",
-    docAvatar: null
+    role: "Doctor"
   });
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    if (type === "file") {
-      setForm({ ...form, docAvatar: files[0] });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleArrayChange = (e, field) => {
@@ -45,19 +37,16 @@ const DoctorRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    for (const key in form) {
-      if (["specializations", "qualifications", "availableDays", "languagesKnown"].includes(key)) {
-        formData.append(key, JSON.stringify(form[key]));
-      } else {
-        formData.append(key, form[key]);
-      }
-    }
+    const payload = {
+      ...form,
+      specializations: JSON.stringify(form.specializations),
+      qualifications: JSON.stringify(form.qualifications),
+      availableDays: JSON.stringify(form.availableDays),
+      languagesKnown: JSON.stringify(form.languagesKnown),
+    };
 
     try {
-      await axios.post("https://courageous-patience-production.up.railway.app/api/doctors/register", formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      await axios.post("https://courageous-patience-production.up.railway.app/api/doctors/register", payload);
       alert("Doctor registered successfully. Please login.");
       navigate("/login");
     } catch (err) {
@@ -97,7 +86,6 @@ const DoctorRegister = () => {
         <input name="availableHours" className="form-control mb-3" placeholder="Available Hours" value={form.availableHours} onChange={handleChange} required />
         <input name="languagesKnown" className="form-control mb-3" placeholder="Languages Known (comma-separated)" onChange={(e) => handleArrayChange(e, 'languagesKnown')} required />
         <input name="appointmentCharges" className="form-control mb-3" placeholder="Appointment Charges" value={form.appointmentCharges} onChange={handleChange} required />
-        <input name="docAvatar" type="file" className="form-control mb-3" accept="image/*" onChange={handleChange} required />
         <button className="btn btn-primary w-100" type="submit">Register</button>
       </form>
     </div>

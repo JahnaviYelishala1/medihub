@@ -1,7 +1,6 @@
 import Doctor from '../models/doctor.js';
 import jwt from 'jsonwebtoken';
-import cloudinary from '../utils/cloudinary.js';
-import getDataUri from '../utils/dataUri.js';
+
 
 export const registerDoctor = async (req, res) => {
   try {
@@ -13,22 +12,12 @@ export const registerDoctor = async (req, res) => {
     }
 
 
-    const dataUri = getDataUri(req.file);
-
-
-    const uploadedImage = await cloudinary.uploader.upload(dataUri, {
-      upload_preset: 'tnhjn3hc',
-      folder: 'medicore/doctors',
-    });
-
-
     const doctor = await Doctor.create({
       ...req.body,
       specializations: JSON.parse(req.body.specializations),
       qualifications: JSON.parse(req.body.qualifications),
       availableDays: JSON.parse(req.body.availableDays),
       languagesKnown: JSON.parse(req.body.languagesKnown),
-      docAvatar: uploadedImage.secure_url,
     });
 
     // ✅ Generate JWT

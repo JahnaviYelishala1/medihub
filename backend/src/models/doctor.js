@@ -41,25 +41,21 @@ const Doctor = sequelize.define('Doctor', {
   departmentName: { type: DataTypes.STRING, allowNull: false },
   departmentDescription: { type: DataTypes.TEXT, allowNull: false },
   specializations: {
-    type: DataTypes.JSON, // Array of objects [{name, description}]
+    type: DataTypes.JSON, 
     allowNull: false
   },
   qualifications: {
-    type: DataTypes.JSON, // Array of strings
+    type: DataTypes.JSON, 
     allowNull: false
   },
   experience: { type: DataTypes.STRING, allowNull: false },
   availableDays: {
-    type: DataTypes.JSON, // Example: ["Monday", "Tuesday"]
+    type: DataTypes.JSON, 
     allowNull: false
   },
   availableHours: {
     type: DataTypes.STRING,
     allowNull: false
-  },
-  docAvatar: {
-    type: DataTypes.STRING,
-    allowNull: true
   },
   role: {
     type: DataTypes.ENUM('Admin', 'Patient', 'Doctor'),

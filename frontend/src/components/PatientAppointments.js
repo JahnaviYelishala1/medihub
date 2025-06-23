@@ -11,7 +11,7 @@ const PatientAppointments = () => {
     useEffect(() => {
         const fetchAppointments = async () => {
             const patient = JSON.parse(localStorage.getItem('patient'));
-            const patientId = patient?.id; // or patient.patientId depending on your schema
+            const patientId = patient?.id; 
             console.log("👤 Logged-in patient ID:", patientId);
 
 
