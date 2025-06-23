@@ -18,10 +18,10 @@ const PatientDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('hhttps://courageous-patience-production.up.railway.app/api/doctors')
+    axios.get('https://courageous-patience-production.up.railway.app/api/doctors')
       .then(res => {
         setDoctors(res.data);
-        setFilteredDoctors([]); // Initially show none
+        setFilteredDoctors([]); 
       })
       .catch(err => console.error('Error fetching doctors', err));
   }, []);
