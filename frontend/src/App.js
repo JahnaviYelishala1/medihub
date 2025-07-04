@@ -11,7 +11,6 @@ import DoctorDashboard from './components/DoctorDashboard';
 import DoctorRegister from './components/DoctorRegister';
 import DoctorAppointments from './components/DoctorAppointments';
 import PatientAppointments from './components/PatientAppointments';
-import MedicinesPage from './components/MedicinesPage';
 import CartPage from './components/CartPage';
 import AllDoctors from './components/AllDoctors';
 import AboutPage from './components/AboutPage';
@@ -40,7 +39,6 @@ function App() {
         <Route path="/doctor-register" element={<DoctorRegister />} />
         <Route path="/doctor/appointments" element={<DoctorAppointments />} />
         <Route path="/appointments" element={<PatientAppointments />} />
-        <Route path="/medicines" element={<MedicinesPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/doctors" element={<AllDoctors />} />
         <Route path="/about" element={<AboutPage />} />
