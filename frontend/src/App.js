@@ -16,6 +16,7 @@ import CartPage from './components/CartPage';
 import AllDoctors from './components/AllDoctors';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
+import AdminDashboard from './components/AdminDashboard';
 import './components/Footer';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/doctors" element={<AllDoctors />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
 
         {/* Add other routes here */}
