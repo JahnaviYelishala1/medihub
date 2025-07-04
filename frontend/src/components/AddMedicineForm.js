@@ -23,7 +23,7 @@ const AddMedicineForm = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('userToken');
-      await axios.post('https://your-api-url.com/api/medicines', medicine, {
+      await axios.post('https://courageous-patience-production.up.railway.app/api/medicines', medicine, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
