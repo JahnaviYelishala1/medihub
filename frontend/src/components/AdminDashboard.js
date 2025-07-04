@@ -1,7 +1,7 @@
 // src/components/AdminDashboard.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import adminImg from '../assets/admin_dashboard.png'; 
+import adminImg from '../assets/doctors.png'; 
 import { Button, Badge } from 'react-bootstrap';
 
 const AdminDashboard = () => {
