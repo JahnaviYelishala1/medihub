@@ -18,7 +18,7 @@ import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import AdminDashboard from './components/AdminDashboard';
 import AddMedicineForm from './components/AddMedicineForm';
-import ViewStockForms from './components/ViewStockForms';
+import ViewStockForms from './components/ViewStockForm';
 import ViewStockUsages from './components/ViewStockUsages';
 import ViewStockDetails from './components/ViewStockDetails';
 import './components/Footer';
