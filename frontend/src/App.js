@@ -21,6 +21,9 @@ import AddMedicineForm from './components/AddMedicineForm';
 import ViewStockForms from './components/ViewStockForm';
 import ViewStockUsages from './components/ViewStockUsages';
 import ViewStockDetails from './components/ViewStockDetails';
+import MedicineForms from './components/MedicineForms';
+import MedicineUsages from './components/MedicineUsages';
+import BuyMedicinePage from './components/BuyMedicinePage';
 import './components/Footer';
 
 function App() {
@@ -47,6 +50,9 @@ function App() {
         <Route path="/admin/view-stock" element={<ViewStockForms />} />
         <Route path="/admin/view-stock/:form" element={<ViewStockUsages />} />
         <Route path="/admin/view-stock/:form/:usage" element={<ViewStockDetails />} />
+        <Route path="/medicines" element={<MedicineForms />} />
+        <Route path="/medicines/:form" element={<MedicineUsages />} />
+        <Route path="/medicines/:form/:usage" element={<BuyMedicinePage />} />
 
         {/* Add other routes here */}
       </Routes>

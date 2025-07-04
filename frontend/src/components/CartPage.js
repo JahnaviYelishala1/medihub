@@ -1,144 +1,130 @@
+// src/components/CartPage.js
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
-import axios from 'axios';
-
+import { Card, Button, Row, Col, Form } from 'react-bootstrap';
 
 const CartPage = () => {
-    const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
 
-    useEffect(() => {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCartItems(storedCart);
+    calculateTotal(storedCart);
+  }, []);
 
-        const cleanedCart = cart.map(item => ({
-            ...item,
-            price: Number(item.price.toString().replace(/[^\d.]/g, '')),
-            quantity: item.quantity && !isNaN(item.quantity) ? Number(item.quantity) : 1,
-        }));
+  const calculateTotal = (items) => {
+    const sum = items.reduce((acc, item) => acc + item.total, 0);
+    setTotal(sum);
+  };
 
-        setCartItems(cleanedCart);
-    }, []);
-
-    const updateLocalStorage = (updatedCart) => {
-        setCartItems(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
-    };
-
-    const handleRemove = (index) => {
-        const updatedCart = [...cartItems];
-        updatedCart.splice(index, 1);
-        updateLocalStorage(updatedCart);
-    };
-
-    const handleQuantityChange = (index, delta) => {
-        const updatedCart = [...cartItems];
-        const item = updatedCart[index];
-        const newQty = item.quantity + delta;
-        if (newQty < 1) return;
-        item.quantity = newQty;
-        updateLocalStorage(updatedCart);
-    };
-
-    const total = cartItems.reduce(
-        (acc, item) => acc + item.price * item.quantity,
-        0
+  const handleQuantityChange = (id, newQuantity) => {
+    const updated = cartItems.map(item =>
+      item.id === id
+        ? { ...item, quantity: newQuantity, total: newQuantity * item.price }
+        : item
     );
+    setCartItems(updated);
+    localStorage.setItem('cart', JSON.stringify(updated));
+    calculateTotal(updated);
+  };
 
-    const handleCheckout = async () => {
-        const amount = total.toFixed(2);
-        try {
-            const res = await axios.post('https://courageous-patience-production.up.railway.app/api/payment/create-order', {
-                amount,
-                items: cartItems,
-                userId: null // or the logged-in user ID
-            });
+  const handleRemove = (id) => {
+    const updated = cartItems.filter(item => item.id !== id);
+    setCartItems(updated);
+    localStorage.setItem('cart', JSON.stringify(updated));
+    calculateTotal(updated);
+  };
 
-            const { orderId } = res.data;
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
-            const options = {
-                key: 'YOUR_RAZORPAY_KEY_ID',
-                amount: amount * 100,
-                currency: 'INR',
-                name: 'MediHub Store',
-                description: 'Medicine Purchase',
-                order_id: orderId,
-                handler: async function (response) {
-                    const verifyRes = await axios.post('https://courageous-patience-production.up.railway.app/api/payment/verify', {
-                        razorpay_order_id: response.razorpay_order_id,
-                        razorpay_payment_id: response.razorpay_payment_id,
-                        razorpay_signature: response.razorpay_signature
-                    });
+  const handlePayment = async () => {
+    const res = await loadRazorpayScript();
+    if (!res) {
+      alert("Razorpay SDK failed to load");
+      return;
+    }
 
-                    if (verifyRes.data.success) {
-                        alert('✅ Payment Successful!');
-                        localStorage.removeItem('cart');
-                        setCartItems([]);
-                    } else {
-                        alert('❌ Payment Verification Failed');
-                    }
-                },
-                theme: { color: '#3399cc' }
-            };
-
-            const rzp = new window.Razorpay(options);
-            rzp.open();
-        } catch (err) {
-            console.error(err);
-            alert('❌ Failed to initiate payment');
-        }
+    const razorpayOptions = {
+      key: "rzp_test_YourKeyHere", // replace with your Razorpay key
+      amount: total * 100,
+      currency: "INR",
+      name: "MediHub",
+      description: "Medicine Purchase",
+      handler: (response) => {
+        alert("✅ Payment Successful!");
+        console.log(response);
+        localStorage.removeItem("cart");
+        setCartItems([]);
+        setTotal(0);
+      },
+      prefill: {
+        name: "Patient",
+        email: "patient@example.com",
+        contact: "9999999999",
+      },
+      theme: {
+        color: "#00A86B",
+      },
     };
 
+    const rzp = new window.Razorpay(razorpayOptions);
+    rzp.open();
+  };
 
-    return (
-        <div className="container mt-5">
-            <h2>🛒 Your Cart</h2>
-            {cartItems.length === 0 ? (
-                <p>Your cart is empty.</p>
-            ) : (
-                <>
-                    <Row>
-                        {cartItems.map((item, index) => (
-                            <Col md={4} key={index} className="mb-4">
-                                <Card className="h-100">
-                                    <Card.Body>
-                                        <Card.Title>{item.name}</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted">{item.category}</Card.Subtitle>
-                                        <Card.Text>
-                                            {item.description}<br />
-                                            <strong>Price:</strong> ₹{item.price}<br />
-                                            <strong>Quantity:</strong>{' '}
-                                            <Button
-                                                size="sm"
-                                                variant="outline-secondary"
-                                                onClick={() => handleQuantityChange(index, -1)}
-                                            >
-                                                −
-                                            </Button>{' '}
-                                            <span className="mx-2">{item.quantity}</span>
-                                            <Button
-                                                size="sm"
-                                                variant="outline-secondary"
-                                                onClick={() => handleQuantityChange(index, 1)}
-                                            >
-                                                +
-                                            </Button>
-                                        </Card.Text>
-                                        <Button variant="danger" onClick={() => handleRemove(index)}>
-                                            ❌ Remove
-                                        </Button>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
-                    <h4 className="mt-4">🧾 Total: ₹{total.toFixed(2)}</h4>
-                    <Button className="mt-3" variant="success" onClick={handleCheckout}>
-                        💳 Checkout & Pay
+  return (
+    <div className="container mt-4">
+      <h3 className="mb-4">🛒 Your Cart</h3>
+      {cartItems.length === 0 ? (
+        <p>No items in cart.</p>
+      ) : (
+        <>
+          <Row>
+            {cartItems.map((item) => (
+              <Col md={6} key={item.id}>
+                <Card className="mb-3 shadow-sm">
+                  <Card.Body>
+                    <Card.Title>{item.name}</Card.Title>
+                    <Card.Text>Price: ₹{item.price}</Card.Text>
+                    <Form.Label>Quantity</Form.Label>
+                    <Form.Control
+                      type="number"
+                      min="1"
+                      value={item.quantity}
+                      onChange={(e) =>
+                        handleQuantityChange(item.id, parseInt(e.target.value))
+                      }
+                      style={{ width: "80px" }}
+                    />
+                    <Card.Text className="mt-2">
+                      Total: ₹{item.total}
+                    </Card.Text>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleRemove(item.id)}
+                    >
+                      ❌ Remove
                     </Button>
-
-                </>
-            )}
-        </div>
-    );
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+          <h4 className="mt-4">🧾 Grand Total: ₹{total}</h4>
+          <Button className="mt-3" onClick={handlePayment} variant="success">
+            💳 Pay Now
+          </Button>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default CartPage;
