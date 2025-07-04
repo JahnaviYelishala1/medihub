@@ -17,6 +17,7 @@ import AllDoctors from './components/AllDoctors';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import AdminDashboard from './components/AdminDashboard';
+import AddMedicineForm from './components/AddMedicineForm';
 import './components/Footer';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/add-medicine" element={<AddMedicineForm />} />
 
 
         {/* Add other routes here */}
