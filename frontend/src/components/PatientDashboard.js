@@ -21,7 +21,7 @@ const PatientDashboard = () => {
     axios.get('https://courageous-patience-production.up.railway.app/api/doctors')
       .then(res => {
         setDoctors(res.data);
-        setFilteredDoctors([]); 
+        setFilteredDoctors([]);
       })
       .catch(err => console.error('Error fetching doctors', err));
   }, []);
@@ -35,23 +35,22 @@ const PatientDashboard = () => {
   };
 
   const handleSearch = () => {
-  if (!specialization) {
-    setFilteredDoctors(doctors);
-    navigate('/doctors', { state: { filteredDoctors: doctors } });
-    return;
-  }
+    if (!specialization) {
+      setFilteredDoctors(doctors);
+      navigate('/doctors', { state: { filteredDoctors: doctors } });
+      return;
+    }
 
-  const lowerSearch = specialization.toLowerCase();
-  const filtered = doctors.filter((doc) =>
-    doc.specializations?.some(spec =>
-      spec.toLowerCase().includes(lowerSearch)
-    )
-  );
+    const lowerSearch = specialization.toLowerCase();
+    const filtered = doctors.filter((doc) =>
+      doc.specializations?.some(spec =>
+        spec.toLowerCase().includes(lowerSearch)
+      )
+    );
 
-  setFilteredDoctors(filtered);
-  navigate('/doctors', { state: { filteredDoctors: filtered } });
-};
-
+    setFilteredDoctors(filtered);
+    navigate('/doctors', { state: { filteredDoctors: filtered } });
+  };
 
   const handleBookAppointment = (doctorId, day, time) => {
     const patientId = localStorage.getItem('userId');
@@ -92,6 +91,10 @@ const PatientDashboard = () => {
 
             <Button variant="outline-primary" className="ms-3" onClick={() => navigate('/appointments')}>
               📋 View Appointments
+            </Button>
+
+            <Button variant="outline-warning" className="ms-3" onClick={() => navigate('/cart')}>
+              🛒 Go to Cart
             </Button>
           </div>
 
