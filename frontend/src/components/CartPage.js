@@ -46,38 +46,47 @@ const CartPage = () => {
   };
 
   const handlePayment = async () => {
-    const res = await loadRazorpayScript();
-    if (!res) {
-      alert("Razorpay SDK failed to load");
-      return;
-    }
+  const res = await loadRazorpayScript();
+  if (!res) {
+    alert("Razorpay SDK failed to load");
+    return;
+  }
 
-    const razorpayOptions = {
-      key: "rzp_test_YourKeyHere", // replace with your Razorpay key
-      amount: total * 100,
-      currency: "INR",
-      name: "MediHub",
-      description: "Medicine Purchase",
-      handler: (response) => {
-        alert("✅ Payment Successful!");
-        console.log(response);
-        localStorage.removeItem("cart");
-        setCartItems([]);
-        setTotal(0);
-      },
-      prefill: {
-        name: "Patient",
-        email: "patient@example.com",
-        contact: "9999999999",
-      },
-      theme: {
-        color: "#00A86B",
-      },
-    };
+  const response = await fetch("http://localhost:5000/api/payment/create-order", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount: total }),
+  });
 
-    const rzp = new window.Razorpay(razorpayOptions);
-    rzp.open();
+  const data = await response.json();
+
+  const options = {
+    key: "rzp_test_1234567890abcdef", // from your env file
+    amount: data.amount,
+    currency: data.currency,
+    order_id: data.id,
+    name: "MediHub",
+    description: "Medicine Purchase",
+    handler: function (response) {
+      alert("✅ Payment Successful!");
+      localStorage.removeItem("cart");
+      setCartItems([]);
+      setTotal(0);
+      console.log("Payment response:", response);
+    },
+    prefill: {
+      name: "Test Patient",
+      email: "test@medihub.com",
+      contact: "9999999999",
+    },
+    theme: {
+      color: "#00A86B",
+    },
   };
+
+  const rzp = new window.Razorpay(options);
+  rzp.open();
+};
 
   return (
     <div className="container mt-4">
