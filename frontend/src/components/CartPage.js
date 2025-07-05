@@ -52,7 +52,7 @@ const CartPage = () => {
     return;
   }
 
-  const response = await fetch("http://localhost:5000/api/payment/create-order", {
+  const response = await fetch("hhttps://courageous-patience-production.up.railway.app/api/payment/create-order", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ amount: total }),
